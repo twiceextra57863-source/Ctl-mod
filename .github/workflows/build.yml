@@ -1,0 +1,71 @@
+name: 🛡️ Build RenameMod
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'                     # v1.0.0, v1.1.0 etc. pe release banayega
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: 🔨 Build Mod
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Repo clone karo ──────────────────────────────────────
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      # ── 2. Java 21 setup karo (Minecraft 1.21.4 needs Java 21) ──
+      - name: ☕ Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'     # Eclipse Temurin — most reliable
+          cache: 'gradle'             # Gradle cache save karega (faster builds)
+
+      # ── 3. Gradle Wrapper permission do ─────────────────────────
+      - name: 🔧 Make Gradle Wrapper Executable
+        run: chmod +x ./gradlew
+
+      # ── 4. Dependencies download karo (cached hoga) ────────────
+      - name: 📦 Download Dependencies
+        run: ./gradlew dependencies
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── 5. Mod compile karo ─────────────────────────────────────
+      - name: 🏗️ Compile Mod
+        run: ./gradlew compileJava
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── 6. Final JAR banao ──────────────────────────────────────
+      - name: 📦 Build JAR
+        run: ./gradlew build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── 7. JAR file upload karo as artifact ─────────────────────
+      - name: 📤 Upload JAR Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: RenameMod-JAR
+          path: build/libs/*.jar
+          if-no-files-found: error     # agar jar nahi bana toh error
+
+      # ── 8. Agar tag hai toh GitHub Release banao ────────────────
+      - name: 🚀 Create GitHub Release (on tag)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/libs/*.jar
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
