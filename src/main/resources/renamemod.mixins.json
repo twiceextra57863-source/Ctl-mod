@@ -1,0 +1,10 @@
+{
+  "package": "com.example.renamemod.mixin",
+  "compatibilityLevel": "LAYER_17",
+  "refmap": "renamemod.refmap.json",
+  "mixins": [],
+  "client": [
+    "ItemRendererMixin"
+  ],
+  "server": []
+}

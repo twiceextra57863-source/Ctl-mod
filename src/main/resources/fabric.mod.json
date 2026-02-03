@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
+  "authors": [
+    "${mod_author}"
+  ],
+  "contact": {
+    "homepage": "https://github.com/YourName/renamemod",
+    "sources": "https://github.com/YourName/renamemod"
+  },
+  "license": "MIT",
+  "icon": "assets/renamemod/icon.png",
+
+  "environment": "*",
+
+  "entrypoints": {
+    "main": [
+      "com.example.renamemod.RenameMod"
+    ],
+    "client": [
+      "com.example.renamemod.RenameModClient"
+    ]
+  },
+
+  "mixins": [
+    "renamemod.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.16",
+    "fabric": ">=0.115",
+    "minecraft": "~1.21.4"
+  },
+
+  "suggests": {}
+}
