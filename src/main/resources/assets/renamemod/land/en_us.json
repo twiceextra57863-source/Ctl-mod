@@ -1,0 +1,13 @@
+{
+  "renamemod.gui.title": "Rename Item",
+  "renamemod.gui.current_name": "Current Name:",
+  "renamemod.gui.new_name": "New Name:",
+  "renamemod.gui.rename_button": "Rename",
+  "renamemod.gui.cancel_button": "Cancel",
+  "renamemod.gui.error_empty": "Name cannot be empty!",
+  "renamemod.gui.error_invalid": "Invalid name! Use only lowercase, numbers and underscores.",
+  "renamemod.gui.error_no_item": "No item selected! Hold an item in hand.",
+  "renamemod.gui.hint": "Name must match a texture in your Resource Pack",
+  "renamemod.chat.renamed": "Item renamed to: %s",
+  "renamemod.chat.no_resource": "Warning: No texture found for '%s'. Original texture will show."
+}
